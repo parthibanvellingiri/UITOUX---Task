@@ -19,7 +19,7 @@ class CreateStudentMarksTable extends Migration
             $table->string('mark_1')->nullable();
             $table->string('mark_2')->nullable();
             $table->string('mark_3')->nullable();
-            $table->string('total')->nullable();
+            $table->integer('total')->nullable();
             $table->string('rank')->nullable();
             $table->string('result')->nullable();
             $table->timestamps();

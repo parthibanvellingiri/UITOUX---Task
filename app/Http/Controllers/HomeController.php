@@ -26,8 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-
+         $students=StudentMark::where('id','!=',0)->orderBy('total', 'DESC')->take(100)->get();
         return view('page',[
+            'students'=>$students
         ]);
     }
     public function save(Request $request){
@@ -60,7 +61,6 @@ class HomeController extends Controller
                 $student_marks->mark_2=$mark_two[$key];
                 $student_marks->mark_3=$mark_three[$key];
                 $student_marks->total=$total[$key];
-                $student_marks->rank=$rank[$key];
                 $student_marks->save();
 
             }

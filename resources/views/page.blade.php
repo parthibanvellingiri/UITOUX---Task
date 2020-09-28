@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <!-- Icons -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/nucleo/css/nucleo.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}"
+          type="text/css">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/argon.css') }}" type="text/css">
 </head>
@@ -38,68 +39,102 @@
 <div class="container-fluid mt--6">
     <form id="fromsubmit" method="post" action="{{ route('save') }}">
         @csrf
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <!-- Card header -->
-                <div class="card-header border-0">
-                    <h3 class="mb-0">Student Details</h3>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">Student Details</h3>
+                    </div>
+                    <!-- Light table -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                            <tr style="text-align: center">
+                                <th scope="col" class="sort">S.No</th>
+                                <th scope="col" class="sort">Student Name</th>
+                                <th scope="col" class="sort">Mark 1</th>
+                                <th scope="col" class="sort">Mark 2</th>
+                                <th scope="col" class="sort">Mark 3</th>
+                                <th scope="col" class="sort">Total</th>
+                                <th scope="col" class="sort">Rank</th>
+                            </tr>
+                            </thead>
+                            <tbody class="list">
+
+                            @php($sl=1)
+                            @forelse($students as $student)
+                                @php($studentdetails=\App\StudentDetail::where('id',$student->student_id)->first())
+
+                                <tr style="text-align: center">
+                            <td>{{ $sl }}</td>
+                            <td>{{ $studentdetails->student_name }}</td>
+                            <td>{{ $student->mark_1 }}</td>
+                            <td>{{ $student->mark_2 }}</td>
+                            <td>{{ $student->mark_3 }}</td>
+                            <td>{{ $student->total }}</td>
+{{--                            <td>{{ $marksdetails->rank }}</td>--}}
+                            <td>{{ $sl }}</td>
+
+                            </tr>
+
+
+                            @php($sl++)
+                            @empty
+                            @endforelse
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <!-- Light table -->
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush" id="appendData">
-                        <thead class="thead-light">
-                        <tr style="text-align: center">
-                            <th scope="col" class="sort">S.No</th>
-                            <th scope="col" class="sort">Student Name</th>
-                            <th scope="col" class="sort">Mark 1</th>
-                            <th scope="col" class="sort">Mark 2</th>
-                            <th scope="col" class="sort">Mark 3</th>
-                            <th scope="col" class="sort">Total</th>
-                            <th scope="col" class="sort">Rank</th>
-                            <th scope="col" class="sort">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody class="list">
-                        <tr id="item_details1">
-                            <td> </td>
-                            <td>
-                                <input class="form-control" type="text" name="student_name[]" id="student_name1">
+                    <!-- Card footer -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" id="appendData">
+                            <thead class="thead-light">
+                            <tr style="text-align: center">
+                                <th scope="col" class="sort">Student Name</th>
+                                <th scope="col" class="sort">Mark 1</th>
+                                <th scope="col" class="sort">Mark 2</th>
+                                <th scope="col" class="sort">Mark 3</th>
+                                <th scope="col" class="sort">Total</th>
+                                <th scope="col" class="sort">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="list">
+                            <tr id="item_details1">
+                                <td>
+                                    <input class="form-control" type="text" name="student_name[]" id="student_name1">
 
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="mark_one[]" id="mark_one1">
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="mark_two[]" id="mark_two1">
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="mark_three[]" id="mark_three1" onkeyup="totalcalc(1)" onchange="totalcalc(1)">
-                            </td>
-                            <td>
-                                <input class="form-control total" type="text" name="total[]" id="total1">
-                            </td>
-                            <td>
-                                <input class="form-control Rank" type="text" name="rank[]" id="rank1">
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="mark_one[]" id="mark_one1">
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="mark_two[]" id="mark_two1">
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="mark_three[]" id="mark_three1"
+                                           onkeyup="totalcalc(1)" onchange="totalcalc(1)">
+                                </td>
+                                <td>
+                                    <input class="form-control total" type="text" name="total[]" id="total1">
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                <div class="row justify-content-end">
+                    <button style="margin-right: 10px" onclick="addItem();addSerialNumber();">ADD</button>
+                    <button>SAVE</button>
                 </div>
-                <!-- Card footer -->
-
-
             </div>
-            <div class="row justify-content-end">
-                <button style="margin-right: 10px" onclick="addItem();addSerialNumber();">ADD</button>
-                <button>SAVE</button>
-            </div>
+
         </div>
-
-    </div>
 </div>
 <!-- Argon Scripts -->
 <!-- Core -->
@@ -115,22 +150,19 @@
 </html>
 <script>
 
-    var addSerialNumber = function () {
-        $('table tr').each(function(index) {
-            $(this).find('td:nth-child(1)').html(index+1);
-        });
-    };
+    // var addSerialNumber = function () {
+    //     $('table tr').each(function (index) {
+    //         $(this).find('td:nth-child(1)').html(index + 1);
+    //     });
+    // };
 
-    addSerialNumber();
+    // addSerialNumber();
 
     var sl = 2;
 
     function addItem() {
 
         $("#appendData tbody").append('<tr id="item_details' + sl + '">\n' +
-            '                            <td >\n' +
-            '                              \n' +
-            '                            </td>\n' +
             '                            <td >\n' +
             '                             <input class="form-control" type="text" name="student_name[]" id="student_name' + sl + '">\n' +
             '                            </td>\n' +
@@ -146,9 +178,6 @@
             '                            <td >\n' +
             '                             <input class="form-control total" type="text"  name="total[]" id="total' + sl + '">\n' +
             '                            </td>\n' +
-            '                            <td >\n' +
-            '                             <input class="form-control Rank" type="text" name="rank[]" id="rank' + sl + '">\n' +
-            '                            </td>\n' +
             '                            <td> <a href="javascript:void(0)" onclick="removeItem(' + sl + ')" class="badge badge-primary" title="Remove">Delete</a></td>\n' +
             '                        </tr>');
 
@@ -157,8 +186,8 @@
     }
 
 
-    function removeItem(id){
-        $("tr").remove("#item_details"+id);
+    function removeItem(id) {
+        $("tr").remove("#item_details" + id);
     }
 
     $(document).ready(function () {
@@ -169,16 +198,19 @@
 
             var form = $(this);
             var url = form.attr('action');
+            var urls = '{{  route('page') }}';
             $.ajax({
                 type: "POST",
                 url: url,
                 data: new FormData(this),
                 contentType: false,
                 cache: false,
-                processData:false,
+                processData: false,
                 success: function (data) {
 
-                    },
+                    $(location).prop('href', urls);
+
+                },
                 error: function (err) {
 
 
@@ -196,9 +228,9 @@
         var mark1 = $('#mark_one' + id).val();
         var mark2 = $('#mark_two' + id).val();
         var mark3 = $('#mark_three' + id).val();
-        var total= Number(mark1) + Number(mark2) + Number(mark3);
+        var total = Number(mark1) + Number(mark2) + Number(mark3);
         $('.error-message').remove();
-            $('#total' + id).val(total);
+        $('#total' + id).val(total);
     }
-    
+
 </script>
